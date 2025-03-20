@@ -37,8 +37,8 @@ jobs:
 
       - name: Extract Extension
         run: |
-          mkdir -p /home/runner/Nodepay/extension
-          tar -xzvf extension_1-profile.tar.gz -C /home/runner/Nodepay/extension
+          mkdir -p /home/runner/Nodepay/extension_1
+          tar -xzvf extension_1-profile.tar.gz -C /home/runner/Nodepay/extension_1
 
       - name: Start Xvfb (Simulate GUI)
         run: Xvfb :99 -screen 0 1920x1080x24 &
