@@ -3,7 +3,7 @@ const fs = require('fs');
 
 (async () => {
     const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
-    const extensionPath = "/home/runner/Nodepay/extension"; // Correct extension path
+    const extensionPath = "/home/runner/Nodepay/extension_1"; // Correct extension path
 
     if (!fs.existsSync(extensionPath)) {
         console.error(`Error: Extension path does not exist - ${extensionPath}`);
