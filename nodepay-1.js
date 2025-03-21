@@ -44,18 +44,19 @@ const fs = require('fs');
         const extensionStatus = await page.locator('span.text-grey-100.lg\\:mt-4.mt-3.mb-3.text-center').isVisible();
         console.log(extensionStatus ? "The extension is NOT running." : "Extension running successfully.");
 
-        // Look for the "Claim 100" button and click if found
+        // Look for the claim button using XPath and click it
         try {
-            const claimButton = await page.locator('div:has-text("Claim 100")').first();
+            const claimButton = await page.locator('xpath=/html/body/div[1]/div[3]/div/main/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]/div/div[2]');
+            
             if (await claimButton.isVisible()) {
-                console.log("Claim 100 button found. Clicking...");
+                console.log("Claim button found using XPath. Clicking...");
                 await claimButton.click();
-                console.log("Claim 100 button clicked successfully.");
+                console.log("Claim button clicked successfully.");
             } else {
-                console.log("Claim 100 button not found.");
+                console.log("Claim button not found using XPath.");
             }
         } catch (error) {
-            console.error("Error finding or clicking Claim 100 button:", error);
+            console.error("Error finding or clicking the claim button:", error);
         }
 
         // Set a timeout to stop the script after 5 hours 30 minutes (19,800,000 ms)
