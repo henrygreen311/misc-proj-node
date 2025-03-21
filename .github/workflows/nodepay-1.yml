@@ -27,18 +27,10 @@ jobs:
       - name: Clear old NodePay profile
         run: rm -rf /home/runner/Nodepay/nodepay_1
 
-      - name: Clear old extension files
-        run: rm -rf /home/runner/Nodepay/extension
-
       - name: Extract Chromium Profile
         run: |
           mkdir -p /home/runner/Nodepay/
           tar -xzvf nodepay_1.tar.gz -C /home/runner/Nodepay/
-
-      - name: Extract Extension
-        run: |
-          mkdir -p /home/runner/Nodepay/extension_1
-          tar -xzvf extension_1-profile.tar.gz -C /home/runner/Nodepay/
 
       - name: Start Xvfb (Simulate GUI)
         run: Xvfb :99 -screen 0 1920x1080x24 &
