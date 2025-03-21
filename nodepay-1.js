@@ -4,6 +4,15 @@ const fs = require('fs');
 (async () => {
     const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
 
+    // Check if the profile directory exists and log its status
+    console.log(`Checking profile directory: ${userDataDir}`);
+    if (fs.existsSync(userDataDir)) {
+        console.log("Profile directory exists. Contents:", fs.readdirSync(userDataDir));
+    } else {
+        console.log("Profile directory does NOT exist.");
+        process.exit(1); // Exit if the directory is missing
+    }
+
     const browser = await chromium.launchPersistentContext(userDataDir, {
         headless: false, // Extensions do NOT work in headless mode
         args: [
