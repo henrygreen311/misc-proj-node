@@ -3,7 +3,7 @@ name: Run NodePay-1 Script
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '0 */1 * * *' # Runs every 4 hours
+    - cron: '0 */4 * * *' # Runs every 4 hours
 
 jobs:
   automate:
@@ -28,7 +28,7 @@ jobs:
         run: rm -rf /home/runner/Nodepay/nodepay_1
 
       - name: Clear old extension files
-        run: rm -rf /home/runner/Nodepay/extension_1
+        run: rm -rf /home/runner/Nodepay/extension
 
       - name: Extract Chromium Profile
         run: |
@@ -44,6 +44,6 @@ jobs:
         run: Xvfb :99 -screen 0 1920x1080x24 &
 
       - name: Run NodePay script
-        run: node nodepay-1.js
+        run: node nodepay.js
         env:
           DISPLAY: ':99.0'  # Use Xvfb display for GUI support
