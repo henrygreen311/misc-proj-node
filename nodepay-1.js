@@ -3,6 +3,12 @@ const fs = require('fs');
 
 (async () => {
     const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
+    const extensionPath = "/home/runner/Nodepay/extension_1"; // Correct extension path
+
+    if (!fs.existsSync(extensionPath)) {
+        console.error(`Error: Extension path does not exist - ${extensionPath}`);
+        process.exit(1);
+    }
 
     const browser = await chromium.launchPersistentContext(userDataDir, {
         headless: false, // Extensions do NOT work in headless mode
@@ -12,7 +18,9 @@ const fs = require('fs');
             "--disable-gpu",  // Fix GPU issues
             "--disable-software-rasterizer", // Use CPU rendering
             "--disable-dev-shm-usage",  // Prevent shared memory issues
-            "--start-maximized"
+            "--start-maximized",
+            `--disable-extensions-except=${extensionPath}`,    
+            `--load-extension=${extensionPath}`    
         ]
     });
 
@@ -24,6 +32,17 @@ const fs = require('fs');
 
     if (page.url() === "https://app.nodepay.ai/dashboard") {
         console.log("Login successful: URL verified.");
+
+        // Improved extension detection
+        const extensionFiles = fs.readdirSync(extensionPath);
+        if (extensionFiles.length === 0) {
+            console.log("Extension folder is empty. The extension might not be installed correctly.");
+        } else {
+            console.log(`Extension files detected: ${extensionFiles.length}`);
+        }
+
+        const extensionStatus = await page.locator('span.text-grey-100.lg\\:mt-4.mt-3.mb-3.text-center').isVisible();
+        console.log(extensionStatus ? "The extension is NOT running." : "Extension running successfully.");
 
         // Look for the "Claim 100" button and click if found
         try {
