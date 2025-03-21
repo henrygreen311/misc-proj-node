@@ -2,17 +2,24 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
-    const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
+    const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Ensure this matches the extracted profile path
+
+    // Ensure the profile directory exists before launching
+    if (!fs.existsSync(userDataDir)) {
+        console.error(`Error: Profile directory does not exist - ${userDataDir}`);
+        process.exit(1);
+    }
 
     const browser = await chromium.launchPersistentContext(userDataDir, {
-        headless: false, // Persistent profile requires non-headless mode
+        headless: false, // Persistent context requires non-headless mode
         args: [
             "--disable-blink-features=AutomationControlled",
             "--no-sandbox",
-            "--disable-gpu",  // Fix GPU issues
-            "--disable-software-rasterizer", // Use CPU rendering
-            "--disable-dev-shm-usage",  // Prevent shared memory issues
-            "--start-maximized"
+            "--disable-gpu",
+            "--disable-software-rasterizer",
+            "--disable-dev-shm-usage",
+            "--start-maximized",
+            "--user-data-dir=" + userDataDir // Explicitly set user profile
         ]
     });
 
@@ -20,7 +27,7 @@ const fs = require('fs');
     await page.goto("https://app.nodepay.ai/dashboard", { waitUntil: "load" });
 
     console.log("Browser started with nodepay_1 profile. Waiting 10 seconds for login verification...");
-    await page.waitForTimeout(10000); // Wait 10 seconds
+    await page.waitForTimeout(10000);
 
     if (page.url() === "https://app.nodepay.ai/dashboard") {
         console.log("Login successful: URL verified.");
@@ -40,23 +47,23 @@ const fs = require('fs');
         }
 
         // Set a timeout to stop the script after 5 hours 30 minutes (19,800,000 ms)
-        const runtimeLimit = 5 * 60 * 60 * 1000 + 30 * 60 * 1000; // 5h 30m in ms
+        const runtimeLimit = 5 * 60 * 60 * 1000 + 30 * 60 * 1000;
         const stopTime = Date.now() + runtimeLimit;
 
         console.log("Script will stop after 5 hours 30 minutes...");
 
-        // Refresh every 15 minutes (900,000 ms) using setInterval
+        // Refresh every 15 minutes
         const refreshInterval = setInterval(async () => {
             if (Date.now() >= stopTime) {
                 console.log("Runtime limit reached. Exiting...");
-                clearInterval(refreshInterval); // Stop refreshing
+                clearInterval(refreshInterval);
                 await browser.close();
-                process.exit(0); // Exit successfully
+                process.exit(0);
             }
 
             await page.reload({ waitUntil: "load" });
             console.log("Page refreshed at: " + new Date().toISOString());
-        }, 900000); // 15 minutes = 900,000 ms
+        }, 900000);
 
     } else {
         console.log("Login failed: Unexpected URL - " + page.url());
