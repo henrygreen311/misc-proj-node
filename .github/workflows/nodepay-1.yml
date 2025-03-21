@@ -24,8 +24,16 @@ jobs:
       - name: Install Xvfb (GUI Emulator)
         run: sudo apt update && sudo apt install -y xvfb
 
+      - name: Clear old NodePay profile
+        run: rm -rf /home/runner/Nodepay/nodepay_1
+
       - name: Clear old extension files
         run: rm -rf /home/runner/Nodepay/extension_1
+
+      - name: Extract Chromium Profile
+        run: |
+          mkdir -p /home/runner/Nodepay/nodepay_1
+          tar -xzvf nodepay_1-profile.tar.gz -C /home/runner/Nodepay/nodepay_1
 
       - name: Extract Extension
         run: |
