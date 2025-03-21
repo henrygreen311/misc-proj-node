@@ -2,7 +2,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
-    const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
+    const userDataDir = "/home/runner/Nodepay/nodepay"; // Use the persistent profile
 
     const browser = await chromium.launchPersistentContext(userDataDir, {
         headless: false, // Extensions do NOT work in headless mode
