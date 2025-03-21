@@ -5,7 +5,7 @@ const fs = require('fs');
     const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
 
     const browser = await chromium.launchPersistentContext(userDataDir, {
-        headless: false, // Persistent profiles do NOT work in headless mode
+        headless: false, // Persistent profile requires non-headless mode
         args: [
             "--disable-blink-features=AutomationControlled",
             "--no-sandbox",
