@@ -2,6 +2,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
+    const userDataDir = "/home/runner/Nodepay/nodepay_1"; // Use the persistent profile
     const extensionPath = "/home/runner/Nodepay/extension_1"; // Correct extension path
 
     if (!fs.existsSync(extensionPath)) {
@@ -9,7 +10,7 @@ const fs = require('fs');
         process.exit(1);
     }
 
-    const browser = await chromium.launch({
+    const browser = await chromium.launchPersistentContext(userDataDir, {
         headless: false, // Extensions do NOT work in headless mode
         args: [
             "--disable-blink-features=AutomationControlled",
@@ -26,7 +27,7 @@ const fs = require('fs');
     const page = await browser.newPage();
     await page.goto("https://app.nodepay.ai/dashboard", { waitUntil: "load" });
 
-    console.log("Browser started. Waiting 10 seconds for login verification...");
+    console.log("Browser started with nodepay_1 profile. Waiting 10 seconds for login verification...");
     await page.waitForTimeout(10000); // Wait 10 seconds
 
     if (page.url() === "https://app.nodepay.ai/dashboard") {
