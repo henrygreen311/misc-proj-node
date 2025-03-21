@@ -11,7 +11,7 @@ const fs = require('fs');
     }
 
     const browser = await chromium.launchPersistentContext(userDataDir, {
-        headless: false, // Extensions do NOT work in headless mode
+        headless: true, // Extensions do NOT work in headless mode
         args: [
             "--disable-blink-features=AutomationControlled",
             "--no-sandbox",
