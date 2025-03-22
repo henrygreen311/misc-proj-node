@@ -3,7 +3,7 @@ name: Run NodePay-3 Script
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '0 */1 * * *' # Runs every 1 hours
+    - cron: '0 */2 * * *' # Runs every 1 hours
 
 jobs:
   automate:
