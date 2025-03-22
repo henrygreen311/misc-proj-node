@@ -44,6 +44,6 @@ jobs:
         run: Xvfb :99 -screen 0 1920x1080x24 &
 
       - name: Run NodePay script
-        run: node nodepay-1.js
+        run: node nodepay-2.js
         env:
           DISPLAY: ':99.0'  # Use Xvfb display for GUI support
