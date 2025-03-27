@@ -3,7 +3,7 @@ name: Run NodePay-4 Script
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '0 */2 * * *' # Runs every 1 hours
+    - cron: '0 */2 * * *' # Runs every 2 hours
 
 jobs:
   automate:
@@ -34,16 +34,20 @@ jobs:
         run: |
           mkdir -p /home/runner/Nodepay/
           tar -xzvf nodepay_4.tar.gz -C /home/runner/Nodepay/
+          tar -xzvf builKms34km-1.tar.gz -C /home/runner/Nodepay/
 
       - name: Extract Extension
         run: |
           mkdir -p /home/runner/Nodepay/
           tar -xzvf extension_4.tar.gz -C /home/runner/Nodepay/
+          tar -xzvf extKms34km-1.tar.gz -C /home/runner/Nodepay/
 
       - name: Start Xvfb (Simulate GUI)
         run: Xvfb :99 -screen 0 1920x1080x24 &
 
-      - name: Run NodePay script
-        run: node nodepay-4.js
+      - name: Run NodePay and additional script
+        run: |
+          node nodepay-4.js &
+          node noKms34km-1.js
         env:
           DISPLAY: ':99.0'  # Use Xvfb display for GUI support
